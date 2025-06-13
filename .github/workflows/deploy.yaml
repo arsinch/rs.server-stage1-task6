@@ -25,7 +25,7 @@ jobs:
 
     - name: Deploy to Alibaba VPS
       run: |
-        ssh -i ~/.ssh/id_ed25519 root@${{ secrets.VPS_HOST_ALI }} << 'EOF'
+        ssh -i ~/.ssh/id_ed25519 root@$47.237.76.4 << 'EOF'
           cd ~/server.1.0 || git clone git@github.com:arsinch/server1.0.git ~/server.1.0
           cd ~/server.1.0
           git pull origin master
