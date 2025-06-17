@@ -23,9 +23,9 @@ jobs:
       run: |
         ssh-keyscan -H ${{ secrets.VPS_HOST_ALI }} >> ~/.ssh/known_hosts
 
-    - name: Deploy to Alibaba VPS
+    - name: Deploy VPS
       run: |
-        ssh -i ~/.ssh/id_ed25519 root@47.237.76.4 << 'EOF'
+        ssh -i ~/.ssh/id_ed25519 root@188.166.53.73 << 'EOF'
           cd ~/server1.0 || git clone git@github.com:arsinch/server1.0.git ~/server1.0
           cd ~/server1.0
           git pull origin master
