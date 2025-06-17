@@ -2,20 +2,28 @@ name: Deploy to VPS
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]  # или другая ветка, если у тебя не main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup SSH and deploy
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan 188.166.53.73 >> ~/.ssh/known_hosts
-        ssh -i ~/.ssh/id_ed25519 root@188.166.53.73 "cd /root/project && git pull && docker-compose up -d --build"
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H 188.166.53.73 >> ~/.ssh/known_hosts
+
+      - name: Deploy to VPS via SSH
+        run: |
+          ssh root@188.166.53.73 << 'EOF'
+            cd ~/server1.0
+            git pull origin main
+            docker-compose down
+            docker-compose up -d --build
+          EOF
