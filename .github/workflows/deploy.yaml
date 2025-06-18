@@ -2,7 +2,7 @@ name: Deploy to VPS
 
 on:
   push:
-    branches: [ main ]  # или другая ветка, если у тебя не main
+    branches: [ master ]  # или другая ветка, если у тебя не main
 
 jobs:
   deploy:
@@ -23,7 +23,7 @@ jobs:
         run: |
           ssh root@188.166.53.73 << 'EOF'
             cd ~/server1.0
-            git pull origin main
+            git pull origin master
             docker-compose down
             docker-compose up -d --build
           EOF
